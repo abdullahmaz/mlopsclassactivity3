@@ -1,0 +1,28 @@
+1. How does CI/CD improve collaboration in ML teams?
+Ans. Consistency: Same automated steps for everyone (prep, train, eval).
+Fast feedback: Breaks found early on every push/PR.
+Reproducibility: Versioned runs with logged artifacts.
+Transparency: Team sees status/results in one place.
+Quality gates: Only good models pass.
+
+2. What happens if the evaluation score is below the threshold?
+Ans. The eval step fails.
+The workflow run is marked failed.
+Artifacts aren’t released/deployed.
+Team sees the failure and fixes the issue.
+
+3. How can retraining or drift detection be integrated?
+Ans. Scheduled runs (cron) to retrain regularly.
+Drift checks before/after training (feature/label distribution checks).
+Monitoring hooks: trigger retrain if live metrics degrade.
+Auto-actions: open issues/notify Slack, or kick off retrain.
+
+4. Steps to deploy this workflow to production (AWS/Kubernetes)
+Ans. Build + push image to a registry (ECR/DockerHub).
+Store model in S3/registry and version it.
+Provision serving:
+AWS: SageMaker endpoint or ECS/Fargate service.
+K8s: Deployment + Service (+ HPA).
+Wire secrets/config (env vars, Secrets Manager/K8s Secrets).
+Add CI deploy job on success (main/tag).
+Ops: health checks, monitoring, logging, rollback.
